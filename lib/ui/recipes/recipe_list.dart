@@ -2,6 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 // TODO: Add imports
+import 'package:shared_preferences/shared_preferences.dart';
+import '../widgets/custom_dropdown.dart';
+import '../colors.dart';
 
 class RecipeList extends StatefulWidget {
   const RecipeList({Key? key}) : super(key: key);
@@ -99,9 +102,11 @@ class _RecipeListState extends State<RecipeList> {
                       autofocus: false,
                       controller: searchTextController,
                       onChanged: (query) => {
-                        if (query.length >= 3) {
+                        if (query.length >= 3)
+                          {
                             // Rebuild list
-                            setState(() {
+                            setState(
+                              () {
                                 currentSearchList.clear();
                                 currentCount = 0;
                                 currentEndPosition = pageCount;

@@ -27,6 +27,7 @@ class _RecipeListState extends State<RecipeList> {
   bool loading = false;
   bool inErrorState = false;
   // TODO: Add searches array
+  List<String> previousSearches = <String>[];
 
   @override
   void initState() {

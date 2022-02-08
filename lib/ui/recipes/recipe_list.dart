@@ -33,6 +33,7 @@ class _RecipeListState extends State<RecipeList> {
   void initState() {
     super.initState();
     // TODO: Call getPreviousSearches
+    getPreviousSearches();
     searchTextController = TextEditingController(text: '');
     _scrollController
       ..addListener(() {
@@ -67,6 +68,22 @@ class _RecipeListState extends State<RecipeList> {
     final prefs = await SharedPreferences.getInstance();
     // 2
     prefs.setStringList(prefSearchKey, previousSearches);
+  }
+
+  void getPreviousSearches() async {
+    // 1
+    final prefs = await SharedPreferences.getInstance();
+    // 2
+    if (prefs.containsKey(prefSearchKey)) {
+      // 3
+      final searches = prefs.getStringList(prefSearchKey);
+      // 4
+      if (searches != null) {
+        previousSearches = searches;
+      } else {
+        previousSearches = <String>[];
+      }
+    }
   }
 
   @override

@@ -93,3 +93,20 @@ String getWeight(double? weight) {
 }
 
 // TODO: Add @JsonSerializable() class APIIngredients
+@JsonSerializable()
+class APIIngredients {
+  // 1
+  @JsonKey(name: 'text')
+  String name;
+  double weight;
+
+  APIIngredients({
+    required this.name,
+    required this.weight,
+  });
+
+  // 2
+  factory APIIngredients.fromJson(Map<String, dynamic> json) =>
+      _$APIIngredientsFromJson(json);
+  Map<String, dynamic> toJson() => _$APIIngredientsToJson(this);
+}

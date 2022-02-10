@@ -4,6 +4,7 @@ part 'recipe_model.g.dart';
 
 @JsonSerializable()
 class APIRecipeQuery {
+  @JsonKey(name: 'q')
   String query;
   int from;
   int to;
@@ -24,7 +25,6 @@ class APIRecipeQuery {
       _$APIRecipeQueryFromJson(json);
 
   Map<String, dynamic> toJson() => _$APIRecipeQueryToJson(this);
-  @JsonKey(name: 'q')
 }
 
 @JsonSerializable()

@@ -4,11 +4,6 @@ part 'recipe_model.g.dart';
 
 @JsonSerializable()
 class APIRecipeQuery {
-  factory APIRecipeQuery.fromJson(Map<String, dynamic> json) =>
-      _$APIRecipeQueryFromJson(json);
-
-  Map<String, dynamic> toJson() => _$APIRecipeQueryToJson(this);
-  @JsonKey(name: 'q')
   String query;
   int from;
   int to;
@@ -24,6 +19,12 @@ class APIRecipeQuery {
     required this.count,
     required this.hits,
   });
+
+  factory APIRecipeQuery.fromJson(Map<String, dynamic> json) =>
+      _$APIRecipeQueryFromJson(json);
+
+  Map<String, dynamic> toJson() => _$APIRecipeQueryToJson(this);
+  @JsonKey(name: 'q')
 }
 
 @JsonSerializable()

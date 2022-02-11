@@ -5,13 +5,11 @@ import 'package:logging/logging.dart';
 import 'ui/main_screen.dart';
 
 Future<void> main() async {
-  // TODO: Call _setupLogging()
   _setupLogging();
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
-// TODO: Add _setupLogging()
 void _setupLogging() {
   Logger.root.level = Level.ALL;
   Logger.root.onRecord.listen((rec) {
@@ -29,8 +27,8 @@ class MyApp extends StatelessWidget {
       title: 'Recipes',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        brightness: Brightness.light,
-        primaryColor: Colors.white,
+          brightness: Brightness.light,
+          primaryColor: Colors.white,
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),

@@ -71,7 +71,7 @@ class MemoryRepository extends Repository with ChangeNotifier {
     return <int>[];
   }
 
-  // TODO: Add the delete methods
+  // TODO: Add the delete method(s)
   @override
   void deleteRecipe(Recipe recipe) {
     // 20

@@ -1,6 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:provider/provider.dart';
+import '../../data/models/recipe.dart';
+import '../../data/memory_repository.dart';
 
 class MyRecipesList extends StatefulWidget {
   const MyRecipesList({Key? key}) : super(key: key);
@@ -11,7 +14,7 @@ class MyRecipesList extends StatefulWidget {
 
 class _MyRecipesListState extends State<MyRecipesList> {
   // TODO: Update recipes declaration
-  List<String> recipes = [];
+  List<Recipe> recipes = [];
 
   // TODO: Remove initState()
   @override
@@ -51,7 +54,7 @@ class _MyRecipesListState extends State<MyRecipesList> {
                     padding: const EdgeInsets.all(8.0),
                     child: ListTile(
                       leading: CachedNetworkImage(
-                          // TODO: Replace imageUrl hardcoding 
+                          // TODO: Replace imageUrl hardcoding
                           imageUrl:
                               'http://www.seriouseats.com/recipes/2011/12/chicken-vesuvio-recipe.html',
                           height: 120,
@@ -88,4 +91,16 @@ class _MyRecipesListState extends State<MyRecipesList> {
   }
 
   // TODO: Add deleteRecipe() here
+  void deleteRecipe(MemoryRepository repository, Recipe recipe) async {
+    if (recipe.id != null) {
+      // 1
+      repository.deleteRecipeIngredients(recipe.id!);
+      // 2
+      repository.deleteRecipe(recipe);
+      // 3
+      setState(() {});
+    } else {
+      print('Recipe id is null');
+    }
+  }
 }

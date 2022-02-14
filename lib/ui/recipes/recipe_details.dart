@@ -4,9 +4,15 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../colors.dart';
 
+import 'package:provider/provider.dart';
+import '../../network/recipe_model.dart';
+import '../../data/models/models.dart';
+import '../../data/memory_repository.dart';
+
 class RecipeDetails extends StatelessWidget {
   // TODO: Replace with new constructor
-  const RecipeDetails({Key? key}) : super(key: key);
+  final Recipe recipe;
+  const RecipeDetails({Key? key, required this.recipe}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -52,8 +58,7 @@ class RecipeDetails extends StatelessWidget {
                   padding: EdgeInsets.only(left: 16.0),
                   child: Text(
                     'Chicken Vesuvio',
-                    style: TextStyle(
-                        fontSize: 22, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                   ),
                 ),
                 const SizedBox(

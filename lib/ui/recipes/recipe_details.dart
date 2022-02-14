@@ -85,6 +85,7 @@ class RecipeDetails extends StatelessWidget {
                     ),
                     onPressed: () {
                       // TODO: Add insertRecipe here
+                      repository.insertRecipe(recipe);
                       Navigator.pop(context);
                     },
                     icon: SvgPicture.asset(

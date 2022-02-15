@@ -5,6 +5,11 @@ abstract class Repository {
   // 1
   Future<List<Recipe>> findAllRecipes();
 
+  // 1
+  Stream<List<Recipe>> watchAllRecipes();
+// 2
+  Stream<List<Ingredient>> watchAllIngredients();
+
   Future<Recipe> findRecipeById(int id);
 
   Future<List<Ingredient>> findAllIngredients();

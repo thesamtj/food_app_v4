@@ -1,22 +1,51 @@
 import 'dart:core';
-import 'package:flutter/foundation.dart';
 // 1
 import 'repository.dart';
 // 2
 import 'models/models.dart';
+import 'dart:async';
 
 // 3
-class MemoryRepository extends Repository with ChangeNotifier {
+class MemoryRepository extends Repository {
   // 4
   final List<Recipe> _currentRecipes = <Recipe>[];
   // 5
   final List<Ingredient> _currentIngredients = <Ingredient>[];
 
+  //1
+  Stream<List<Recipe>>? _recipeStream;
+  Stream<List<Ingredient>>? _ingredientStream;
+// 2
+  final StreamController _recipeStreamController =
+      StreamController<List<Recipe>>();
+  final StreamController _ingredientStreamController =
+      StreamController<List<Ingredient>>();
+
+  // 3
+  @override
+  Stream<List<Recipe>> watchAllRecipes() {
+    if (_recipeStream == null) {
+      _recipeStream = _recipeStreamController.stream as Stream<List<Recipe>>;
+    }
+    return _recipeStream!;
+  }
+
+// 4
+  @override
+  Stream<List<Ingredient>> watchAllIngredients() {
+    if (_ingredientStream == null) {
+      _ingredientStream =
+          _ingredientStreamController.stream as Stream<List<Ingredient>>;
+    }
+    return _ingredientStream!;
+  }
+
   // TODO: Add find methods
   @override
-  List<Recipe> findAllRecipes() {
-    // 7
-    return _currentRecipes;
+// 1
+  Future<List<Recipe>> findAllRecipes() {
+    // 2
+    return Future.value(_currentRecipes);
   }
 
   @override
@@ -45,17 +74,17 @@ class MemoryRepository extends Repository with ChangeNotifier {
 
   // TODO: Add insert methods
   @override
-  int insertRecipe(Recipe recipe) {
-    // 12
+// 1
+  Future<int> insertRecipe(Recipe recipe) {
     _currentRecipes.add(recipe);
-    // 13
+    // 2
+    _recipeStreamController.sink.add(_currentRecipes);
     if (recipe.ingredients != null) {
       insertIngredients(recipe.ingredients!);
     }
-    // 14
-    notifyListeners();
-    // 15
-    return 0;
+    // 3
+    // 4
+    return Future.value(0);
   }
 
   @override
@@ -109,9 +138,12 @@ class MemoryRepository extends Repository with ChangeNotifier {
   // 6
   @override
   Future init() {
-    return Future.value(null);
+    return Future.value();
   }
 
   @override
-  void close() {}
+  void close() {
+    _recipeStreamController.close();
+    _ingredientStreamController.close();
+  }
 }

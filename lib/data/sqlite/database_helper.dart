@@ -184,5 +184,64 @@ class DatabaseHelper {
   }
 
 // TODO: Insert methods go here
+// 1
+  Future<int> insert(String table, Map<String, dynamic> row) async {
+    final db = await instance.streamDatabase;
+    // 2
+    return db.insert(table, row);
+  }
+
+  Future<int> insertRecipe(Recipe recipe) {
+    // 3
+    return insert(recipeTable, recipe.toJson());
+  }
+
+  Future<int> insertIngredient(Ingredient ingredient) {
+    // 4
+    return insert(ingredientTable, ingredient.toJson());
+  }
+
+// TODO: Delete methods go here
+// 1
+  Future<int> _delete(String table, String columnId, int id) async {
+    final db = await instance.streamDatabase;
+    // 2
+    return db.delete(table, where: '$columnId = ?', whereArgs: [id]);
+  }
+
+  Future<int> deleteRecipe(Recipe recipe) async {
+    // 3
+    if (recipe.id != null) {
+      return _delete(recipeTable, recipeId, recipe.id!);
+    } else {
+      return Future.value(-1);
+    }
+  }
+
+  Future<int> deleteIngredient(Ingredient ingredient) async {
+    if (ingredient.id != null) {
+      return _delete(ingredientTable, ingredientId, ingredient.id!);
+    } else {
+      return Future.value(-1);
+    }
+  }
+
+  Future<void> deleteIngredients(List<Ingredient> ingredients) {
+    // 4
+    ingredients.forEach((ingredient) {
+      if (ingredient.id != null) {
+        _delete(ingredientTable, ingredientId, ingredient.id!);
+      }
+    });
+    return Future.value();
+  }
+
+  Future<int> deleteRecipeIngredients(int id) async {
+    final db = await instance.streamDatabase;
+    // 5
+    return db.delete(ingredientTable, where: '$recipeId = ?', whereArgs: [id]);
+  }
+
+// TODO: Add close() here
 
 }

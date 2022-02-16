@@ -77,5 +77,87 @@ class DatabaseHelper {
   }
 
 // TODO: Add initialize getter here
+// 1
+  Future<Database> get database async {
+    // 2
+    if (_database != null) return _database!;
+    // Use this object to prevent concurrent access to data
+    // 3
+    await lock.synchronized(() async {
+      // lazily instantiate the db the first time it is accessed
+      // 4
+      if (_database == null) {
+        // 5
+        _database = await _initDatabase();
+        // 6
+        _streamDatabase = BriteDatabase(_database!);
+      }
+    });
+    return _database!;
+  }
+
+// TODO: Add getter for streamDatabase
+// 1
+  Future<BriteDatabase> get streamDatabase async {
+    // 2
+    await database;
+    return _streamDatabase;
+  }
+
+// TODO: Add parseRecipes here
+  List<Recipe> parseRecipes(List<Map<String, dynamic>> recipeList) {
+    final recipes = <Recipe>[];
+    // 1
+    recipeList.forEach((recipeMap) {
+      // 2
+      final recipe = Recipe.fromJson(recipeMap);
+      // 3
+      recipes.add(recipe);
+    });
+    // 4
+    return recipes;
+  }
+
+  List<Ingredient> parseIngredients(List<Map<String, dynamic>> ingredientList) {
+    final ingredients = <Ingredient>[];
+    ingredientList.forEach((ingredientMap) {
+      // 5
+      final ingredient = Ingredient.fromJson(ingredientMap);
+      ingredients.add(ingredient);
+    });
+    return ingredients;
+  }
+
+// TODO: Add findAppRecipes here
+  Future<List<Recipe>> findAllRecipes() async {
+    // 1
+    final db = await instance.streamDatabase;
+    // 2
+    final recipeList = await db.query(recipeTable);
+    // 3
+    final recipes = parseRecipes(recipeList);
+    return recipes;
+  }
+
+// TODO: Add watchAllRecipes() here
+  Stream<List<Recipe>> watchAllRecipes() async* {
+    final db = await instance.streamDatabase;
+    // 1
+    yield* db
+        // 2
+        .createQuery(recipeTable)
+        // 3
+        .mapToList((row) => Recipe.fromJson(row));
+  }
+
+// TODO: Add watchAllIngredients() here
+  Stream<List<Ingredient>> watchAllIngredients() async* {
+    final db = await instance.streamDatabase;
+    yield* db
+        .createQuery(ingredientTable)
+        .mapToList((row) => Ingredient.fromJson(row));
+  }
+
+// TODO: Add findRecipeByID() here
 
 }

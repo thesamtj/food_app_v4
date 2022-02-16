@@ -159,5 +159,30 @@ class DatabaseHelper {
   }
 
 // TODO: Add findRecipeByID() here
+  Future<Recipe> findRecipeById(int id) async {
+    final db = await instance.streamDatabase;
+    final recipeList = await db.query(recipeTable, where: 'id = $id');
+    final recipes = parseRecipes(recipeList);
+    return recipes.first;
+  }
+
+// TODO: Put findAllIngredients() here
+  Future<List<Ingredient>> findAllIngredients() async {
+    final db = await instance.streamDatabase;
+    final ingredientList = await db.query(ingredientTable);
+    final ingredients = parseIngredients(ingredientList);
+    return ingredients;
+  }
+
+// TODO: findRecipeIngredients() goes here
+  Future<List<Ingredient>> findRecipeIngredients(int recipeId) async {
+    final db = await instance.streamDatabase;
+    final ingredientList =
+        await db.query(ingredientTable, where: 'recipeId = $recipeId');
+    final ingredients = parseIngredients(ingredientList);
+    return ingredients;
+  }
+
+// TODO: Insert methods go here
 
 }

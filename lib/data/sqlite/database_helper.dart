@@ -243,5 +243,7 @@ class DatabaseHelper {
   }
 
 // TODO: Add close() here
-
+  void close() {
+    _streamDatabase.close();
+  }
 }

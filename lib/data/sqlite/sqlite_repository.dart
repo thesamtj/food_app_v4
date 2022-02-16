@@ -41,5 +41,94 @@ class SqliteRepository extends Repository {
   }
 
 // TODO: Add recipe insert here
+  @override
+  Future<int> insertRecipe(Recipe recipe) {
+    // 1
+    return Future(() async {
+      // 2
+      final id = await dbHelper.insertRecipe(recipe);
+      // 3
+      recipe.id = id;
+      if (recipe.ingredients != null) {
+        recipe.ingredients!.forEach((ingredient) {
+          // 4
+          ingredient.recipeId = id;
+        });
+        // 5
+        insertIngredients(recipe.ingredients!);
+      }
+      // 6
+      return id;
+    });
+  }
 
+// TODO: Insert ingredients
+  @override
+  Future<List<int>> insertIngredients(List<Ingredient> ingredients) {
+    return Future(() async {
+      if (ingredients.length != 0) {
+        // 1
+        final ingredientIds = <int>[];
+        // 2
+        await Future.forEach(ingredients, (Ingredient ingredient) async {
+          // 3
+          final futureId = await dbHelper.insertIngredient(ingredient);
+          ingredient.id = futureId;
+          // 4
+          ingredientIds.add(futureId);
+        });
+        // 5
+        return Future.value(ingredientIds);
+      } else {
+        return Future.value(<int>[]);
+      }
+    });
+  }
+
+// TODO: Delete methods go here
+  @override
+  Future<void> deleteRecipe(Recipe recipe) {
+    // 1
+    dbHelper.deleteRecipe(recipe);
+    // 2
+    if (recipe.id != null) {
+      deleteRecipeIngredients(recipe.id!);
+    }
+    return Future.value();
+  }
+
+  @override
+  Future<void> deleteIngredient(Ingredient ingredient) {
+    dbHelper.deleteIngredient(ingredient);
+    // 3
+    return Future.value();
+  }
+
+  @override
+  Future<void> deleteIngredients(List<Ingredient> ingredients) {
+    // 4
+    dbHelper.deleteIngredients(ingredients);
+    return Future.value();
+  }
+
+  @override
+  Future<void> deleteRecipeIngredients(int recipeId) {
+    // 5
+    dbHelper.deleteRecipeIngredients(recipeId);
+    return Future.value();
+  }
+
+// TODO: initialize and close methods go here
+  @override
+  Future init() async {
+    // 1
+    await dbHelper.database;
+    return Future.value();
+  }
+
+  @override
+  void close() {
+    // 2
+    dbHelper.close();
+  }
 }

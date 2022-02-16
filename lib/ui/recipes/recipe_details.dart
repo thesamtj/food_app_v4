@@ -1,23 +1,21 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
+import '../../data/models/recipe.dart';
+import '../../data/repository.dart';
+import '../../network/recipe_model.dart';
 import '../colors.dart';
 
-import 'package:provider/provider.dart';
-import '../../network/recipe_model.dart';
-import '../../data/models/models.dart';
-import '../../data/repository.dart';
-
 class RecipeDetails extends StatelessWidget {
-  // TODO: Replace with new constructor
   final Recipe recipe;
+
   const RecipeDetails({Key? key, required this.recipe}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final repository = Provider.of<Repository>(context);
-
     final size = MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(
@@ -32,7 +30,6 @@ class RecipeDetails extends StatelessWidget {
                     Align(
                       alignment: Alignment.topLeft,
                       child: CachedNetworkImage(
-                        // TODO: Replace imageUrl
                         imageUrl: recipe.image ?? '',
                         alignment: Alignment.topLeft,
                         fit: BoxFit.fill,
@@ -54,7 +51,6 @@ class RecipeDetails extends StatelessWidget {
                 const SizedBox(
                   height: 16,
                 ),
-                // TODO: Replace hardcoded Chicken Vesuvio
                 Padding(
                   padding: const EdgeInsets.only(left: 16.0),
                   child: Text(
@@ -66,13 +62,11 @@ class RecipeDetails extends StatelessWidget {
                 const SizedBox(
                   height: 16,
                 ),
-                // TODO: Replace hardcoded calories
                 Padding(
-                  padding: const EdgeInsets.only(left: 16.0),
-                  child: Chip(
-                    label: Text(getCalories(recipe.calories)),
-                  ),
-                ),
+                    padding: const EdgeInsets.only(left: 16.0),
+                    child: Chip(
+                      label: Text(getCalories(recipe.calories)),
+                    )),
                 const SizedBox(
                   height: 16,
                 ),
@@ -84,7 +78,6 @@ class RecipeDetails extends StatelessWidget {
                           borderRadius: BorderRadius.circular(16.0)),
                     ),
                     onPressed: () {
-                      // TODO: Add insertRecipe here
                       repository.insertRecipe(recipe);
                       Navigator.pop(context);
                     },

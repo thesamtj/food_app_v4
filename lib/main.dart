@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:logging/logging.dart';
-
-import 'ui/main_screen.dart';
 import 'package:provider/provider.dart';
-import 'data/memory_repository.dart';
 
+import 'data/memory_repository.dart';
 import 'data/repository.dart';
 import 'network/recipe_service.dart';
 import 'network/service_interface.dart';
+import 'ui/main_screen.dart';
 
 Future<void> main() async {
   _setupLogging();
@@ -30,31 +29,27 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      // 1
-      providers: [
-        // 2
-        Provider<Repository>(
-          lazy: false,
-          create: (_) => MemoryRepository(),
-        ),
-        // 3
-        Provider<ServiceInterface>(
-          create: (_) => RecipeService.create(),
-          lazy: false,
-        ),
-      ],
-      // 5
-      child: MaterialApp(
-        title: 'Recipes',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
+        providers: [
+          Provider<Repository>(
+            lazy: false,
+            create: (_) => MemoryRepository(),
+          ),
+          Provider<ServiceInterface>(
+            create: (_) => RecipeService.create(),
+            lazy: false,
+          ),
+        ],
+        child: MaterialApp(
+          title: 'Recipes',
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
           brightness: Brightness.light,
           primaryColor: Colors.white,
-          primarySwatch: Colors.blue,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
+            primarySwatch: Colors.blue,
+            visualDensity: VisualDensity.adaptivePlatformDensity,
+          ),
+          home: const MainScreen(),
         ),
-        home: const MainScreen(),
-      ),
     );
   }
 }

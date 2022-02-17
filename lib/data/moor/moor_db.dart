@@ -66,6 +66,29 @@ class RecipeDao extends DatabaseAccessor<RecipeDatabase> with _$RecipeDaoMixin {
   // 5
   Stream<List<Recipe>> watchAllRecipes() {
     // TODO: Add watchAllRecipes code here
+    // 1
+    return select(moorRecipe)
+        // 2
+        .watch()
+        // 3
+        .map(
+      (rows) {
+        final recipes = <Recipe>[];
+        // 4
+        rows.forEach(
+          (row) {
+            // 5
+            final recipe = moorRecipeToRecipe(row);
+            // 6
+            if (!recipes.contains(recipe)) {
+              recipe.ingredients = <Ingredient>[];
+              recipes.add(recipe);
+            }
+          },
+        );
+        return recipes;
+      },
+    );
   }
 
   // 6

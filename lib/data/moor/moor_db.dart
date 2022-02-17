@@ -24,6 +24,15 @@ class MoorRecipe extends Table {
 }
 
 // TODO: Add MoorIngredient table definition here
+class MoorIngredient extends Table {
+  IntColumn get id => integer().autoIncrement()();
+
+  IntColumn get recipeId => integer()();
+
+  TextColumn get name => text()();
+
+  RealColumn get weight => real()();
+}
 
 // TODO: Add @UseMoor() and RecipeDatabase() here
 

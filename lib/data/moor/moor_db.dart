@@ -36,6 +36,20 @@ class MoorIngredient extends Table {
 
 // TODO: Add @UseMoor() and RecipeDatabase() here
 
+// 1
+@UseMoor(tables: [MoorRecipe, MoorIngredient], daos: [RecipeDao, IngredientDao])
+// 2
+class RecipeDatabase extends _$RecipeDatabase {
+  RecipeDatabase()
+      // 3
+      : super(FlutterQueryExecutor.inDatabaseFolder(
+            path: 'recipes.sqlite', logStatements: true));
+
+  // 4
+  @override
+  int get schemaVersion => 1;
+}
+
 // TODO: Add RecipeDao here
 
 // TODO: Add IngredientDao

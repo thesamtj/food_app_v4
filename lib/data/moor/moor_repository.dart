@@ -114,7 +114,7 @@ class MoorRepository extends Repository {
     );
   }
 
-  // TODO: Add insertRecipe()
+  // TODO: Add insertRecipe
   @override
   Future<int> insertRecipe(Recipe recipe) {
     return Future(

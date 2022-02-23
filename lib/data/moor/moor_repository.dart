@@ -82,7 +82,7 @@ class MoorRepository extends Repository {
         .then((listOfRecipes) => moorRecipeToRecipe(listOfRecipes.first));
   }
 
-  // TODO: Add findAllIngredients()
+  // TODO: Add findAllIngredients
   @override
   Future<List<Ingredient>> findAllIngredients() {
     return _ingredientDao.findAllIngredients().then<List<Ingredient>>(

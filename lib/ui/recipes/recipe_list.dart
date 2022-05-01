@@ -213,7 +213,7 @@ class _RecipeListState extends State<RecipeList> {
           }
 
           loading = false;
-          // Hit an error
+          
           if (false == snapshot.data?.isSuccessful) {
             var errorMessage = 'Problems getting data';
             if (snapshot.data?.error != null &&

@@ -247,7 +247,7 @@ class _RecipeListState extends State<RecipeList> {
           return _buildRecipeList(context, currentSearchList);
         } else {
           if (currentCount == 0) {
-            // Show a loading indicator while waiting for the movies
+            // Show a loading indicator
             return const Center(
               child: CircularProgressIndicator(),
             );
